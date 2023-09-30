@@ -18,9 +18,6 @@ jobs:
     - name: Install dependencies
       run: pip install pylint
 
-    - name: Run PyLint
-      run: pylint --rcfile=.pylintrc **/*.py
-
     - name: Check PyLint score
       run: |
         pylint_score=$(pylint --rcfile=.pylintrc **/*.py --output-format=text . | awk '/Your code has been rated at/ {print $7}')
