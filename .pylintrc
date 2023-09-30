@@ -1,8 +1,13 @@
-[MESSAGES CONTROL]
-disable = C0301, C0114, C0115, C0116
+; [MESSAGES CONTROL]
+; disable = C0114, W0611, C0410
 
-[FORMAT]
-max-line-length = 120
+; [FORMAT]
+; max-line-length = 120
 
-[REPORTS]
-output-format = colorized
+; [REPORTS]
+; output-format = colorized
+
+
+# C0114: Missing module docstring (missing-module-docstring)
+# W0611: Unused import sys (unused-import)
+# C0410: Multiple imports on one line (sys, os) (multiple-imports)
