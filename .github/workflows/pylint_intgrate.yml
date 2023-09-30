@@ -1,0 +1,26 @@
+name: PyLint
+
+on: [push, pull_request]
+
+jobs:
+  pylint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: pip install pylint
+
+    - name: Check PyLint score
+      run: |
+        pylint_score=$(pylint --rcfile=.pylintrc **/*.py --output-format=text . | awk '/Your code has been rated at/ {print $7}')
+        if (( $(echo "$pylint_score < 9" | bc -l) )); then
+          echo "::warning::PyLint score is below 9: $pylint_score"
+        fi
