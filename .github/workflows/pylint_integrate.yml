@@ -19,11 +19,11 @@ jobs:
       run: pip install pylint
 
     - name: Run PyLint
-      run: pylint --rcfile=.pylintrc .
+      run: pylint --rcfile=.pylintrc **/*.py
 
     - name: Check PyLint score
       run: |
-        pylint_score=$(pylint --rcfile=.pylintrc --output-format=text . | awk '/Your code has been rated at/ {print $7}')
+        pylint_score=$(pylint --rcfile=.pylintrc **/*.py --output-format=text . | awk '/Your code has been rated at/ {print $7}')
         if (( $(echo "$pylint_score < 9" | bc -l) )); then
           echo "::warning::PyLint score is below 9: $pylint_score"
         fi
