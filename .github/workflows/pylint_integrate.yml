@@ -1,0 +1,11 @@
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v2
+
+  - name: Set up Python
+    uses: actions/setup-python@v2
+    with:
+      python-version: "3.x"
+      
+  - name: Run Pylint
+    run:  pylint --fail-under=9 $(git diff --name-only HEAD~1..HEAD -- '*.py') || true
