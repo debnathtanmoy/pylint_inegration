@@ -31,5 +31,5 @@ jobs:
         coverage=$(pytest --cov-report=xml | grep -Po "(?<=<coverage.*)line-rate\K[^\"]+")
         if [[ $(echo "$coverage >= 0.8" | bc -l) -eq 0 ]]; then
           echo "Warning: Test coverage below 80% !"
-      fi
+        fi
 
