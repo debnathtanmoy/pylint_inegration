@@ -17,6 +17,6 @@ def greet_user(name):
         Greets an user
     """
     return "Hello, " + name + "!"
-greet_user("Tanmoy")
+print(greet_user("Tanmoy"))
 current_time=datetime.now()
 print("Current time is " + str(current_time))

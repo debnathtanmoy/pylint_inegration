@@ -3,7 +3,8 @@ test for app module
 
 """
 
-from pylint_inegration import app
+from ..src import app
+
 
 def test_greet_user():
     """

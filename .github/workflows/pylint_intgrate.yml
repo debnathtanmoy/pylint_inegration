@@ -20,7 +20,7 @@ jobs:
 
     - name: Check PyLint score
       run: |
-        pylint_score=$(pylint --rcfile=.pylintrc --output-format=text . | awk '/Your code has been rated at/ {print $7}')
+        pylint_score=$(pylint ./**/*.py --ignore venv --rcfile=.pylintrc --output-format=text . | awk '/Your code has been rated at/ {print $7}')
         if (( $(echo "$pylint_score < 9" | bc -l) )); then
           echo "::warning::PyLint score is below 9: $pylint_score"
         else
