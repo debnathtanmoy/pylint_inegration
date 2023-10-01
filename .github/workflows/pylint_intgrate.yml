@@ -20,16 +20,19 @@ jobs:
 
     - name: Check PyLint score
       run: |
-        pylint_score=$(pylint --rcfile=.pylintrc **/*.py --output-format=text . | awk '/Your code has been rated at/ {print $7}')
-        if (( $(echo "$pylint_score <= 9" | bc -l) )); then
+        pylint_score=$(pylint --rcfile=.pylintrc --output-format=text . | awk '/Your code has been rated at/ {print $7}')
+        if (( $(echo "$pylint_score < 9" | bc -l) )); then
           echo "::warning::PyLint score is below 9: $pylint_score"
+        else
+          echo "PyLint score is 9 or higher: $pylint_score"
         fi
 
-    - name: Run pytest
+    - name: Check Pylint coverage
       run: |
-        pytest --cov=./
-        coverage=$(pytest --cov-report=xml | grep -Po "(?<=<coverage.*)line-rate\K[^\"]+")
-        if [[ $(echo "$coverage >= 0.8" | bc -l) -eq 0 ]]; then
-          echo "Warning: Test coverage below 80%! Coverage $coverage"
+        coverage=$(pytest --cov=./ --cov-report=term-missing --cov-fail-under=80 tests/)
+        if [[ "$coverage" != *"FAILED"* ]]; then
+          echo "Coverage is above 80%"
+        else
+          echo "Coverage is below 80%"
         fi
 
