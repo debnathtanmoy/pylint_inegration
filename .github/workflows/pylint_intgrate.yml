@@ -30,7 +30,7 @@ jobs:
 
     - name: Check Pytest coverage
       run: |
-        pytest_coverage=$(pytest --cov=tests --cov=term-missing --cov-fail-under=80 tests/ || echo "FAILED")
+        pytest_coverage=$(pytest --cov=./ --cov=term-missing --cov-fail-under=80 tests/ || echo "FAILED")
         if [[ "$pytest_coverage" != *"FAILED"* ]]; then
               echo "Pytest coverage is above 80%: $pytest_coverage"
             else
