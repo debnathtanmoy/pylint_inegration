@@ -27,12 +27,14 @@ jobs:
           echo "PyLint score is below 9: $pylint_score"
         fi
 
-    - name: Check Pylint coverage
+    - name: Check Pytest coverage
       run: |
-        pytest_coverage=$(pytest --cov=./ --cov-report=term-missing --cov-fail-under=80 tests/)
+        pytest_coverage=$(pytest --cov=./ --cov=term-missing --cov-fail-under=80 tests/ || echo "FAILED")
         if [[ "$pytest_coverage" != *"FAILED"* ]]; then
-          echo "Pytest coverage is above 80%: $pytest_coverage"
-        else
-          echo "Pytest coverage is below 80%: $pytest_coverage"
-        fi
+              echo "Pytest coverage is above 80%: $pytest_coverage"
+            else
+              echo "Pytest coverage is below 80%: $pytest_coverage"
+              exit 1
+            fi
+
 
