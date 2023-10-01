@@ -20,7 +20,7 @@ jobs:
 
     - name: Check PyLint score
       run: |
-        pylint_score=$(pylint --output-format=text --rcfile=.pylintrc --fail-under9 ./**/*.py || echo "FAILED")
+        pylint_score=$(pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py || echo "FAILED")
         if [[ "$pylint_score" != *"FAILED"* ]]; then
           echo "PyLint score is above 9: $pylint_score"
         else
