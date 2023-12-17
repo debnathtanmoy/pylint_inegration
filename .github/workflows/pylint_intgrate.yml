@@ -1,26 +1,41 @@
-name: PyLint
+name: Pylint Pytest Workflow
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [main]
 
 jobs:
-  pylint:
+  pylint-pytest:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
-    - name: Install dependencies
-      run: pip install pylint
+      - name: Install dependencies
+        run: pip install pylint pytest pytest-cov
 
-    - name: Check PyLint score
-      run: |
-        pylint_score=$(pylint --rcfile=.pylintrc **/*.py --output-format=text . | awk '/Your code has been rated at/ {print $7}')
-        if (( $(echo "$pylint_score < 9" | bc -l) )); then
-          echo "::warning::PyLint score is below 9: $pylint_score"
-        fi
+      - name: Check PyLint score
+        run: |
+          pylint_score=$(pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py || echo "FAILED")
+          if [[ "$pylint_score" != *"FAILED"* ]]; then
+            echo "PyLint score is above 9: $pylint_score"
+          else
+            echo "PyLint score is below 9: $pylint_score"
+            exit 0
+          fi
+
+      - name: Run Pytest with coverage
+        run: |
+          pytest --cov=./ --cov=term-missing --cov-fail-under=80 test/
+
+      - name: Upload coverage reports to Codecov
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov -t ${{ secrets.CODECOV_TOKEN }}
