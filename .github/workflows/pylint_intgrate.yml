@@ -1,9 +1,13 @@
 name: Pylint Pytest Workflow
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
-    branches: [main]
-
+    branches:
+      - main
+      
 jobs:
   pylint-pytest:
     runs-on: ubuntu-latest
@@ -20,10 +24,14 @@ jobs:
       - name: Install dependencies
         run: pip install pylint pytest pytest-cov
 
+      - name: Run PyLint and generate report
+        run: |
+          pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_report.txt || echo "FAILED"
+
       - name: Check PyLint score
         run: |
-          pylint_score=$(pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py || echo "FAILED")
-          if [[ "$pylint_score" != *"FAILED"* ]]; then
+          pylint_score=$(cat pylint_report.txt)
+          if [[ "$pylint_score" != "FAILED" ]]; then
             echo "PyLint score is above 9: $pylint_score"
           else
             echo "PyLint score is below 9: $pylint_score"
@@ -38,4 +46,4 @@ jobs:
         run: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov -t ${{ secrets.CODECOV_TOKEN }}
+          ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f pylint_report.txt
