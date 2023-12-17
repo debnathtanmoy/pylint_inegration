@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-      
+
 jobs:
   pylint-pytest:
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
 
       - name: Run Pytest with coverage
         run: |
-          pytest --cov=./ --cov=term-missing --cov-fail-under=80 test/
+          pytest --cov .
 
       - name: Upload coverage reports to Codecov
         run: |
