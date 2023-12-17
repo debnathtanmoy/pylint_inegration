@@ -12,8 +12,8 @@ jobs:
       run: pip install pylint pytest pytest-cov
     - name: Run PyLint and generate report
       run: |
-        pylint --output-format=html --fail-under=9 ./**/*.py > pylint_report.html || echo "FAILED"
-        
+        pylint --output-format=text --fail-under=9 ./**/*.py > pylint_report.txt || echo "FAILED"
+
     - name: Upload coverage reports to Codecov
       run: |
         # Replace `linux` below with the appropriate OS
