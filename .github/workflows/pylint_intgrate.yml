@@ -12,11 +12,12 @@ jobs:
       run: pip install pylint pytest pytest-cov
     - name: Run PyLint and generate report
       run: |
-        pylint --output-format=html --fail-under=9 ./**/*.py > pylint_report.json || echo "FAILED"
+        pylint --output-format=html --fail-under=9 ./**/*.py > pylint_report.html || echo "FAILED"
+        
     - name: Upload coverage reports to Codecov
       run: |
         # Replace `linux` below with the appropriate OS
         # Options are `alpine`, `linux`, `macos`, `windows`
         curl -Os https://uploader.codecov.io/latest/linux/codecov
         chmod +x codecov
-        ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f pylint_report.json
+        ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f pylint_report.html
