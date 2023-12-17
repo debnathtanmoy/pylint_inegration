@@ -14,10 +14,15 @@ jobs:
       run: |
         pylint --output-format=text --fail-under=9 ./**/*.py > pylint_report.txt || echo "FAILED"
 
-    - name: Upload coverage reports to Codecov
-      run: |
-        # Replace `linux` below with the appropriate OS
-        # Options are `alpine`, `linux`, `macos`, `windows`
-        curl -Os https://uploader.codecov.io/latest/linux/codecov
-        chmod +x codecov
-        ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f pylint_report.txt
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+          token: ${{ secrets.YOUR_SECRET_TOKEN }}
+          
+    # - name: Upload coverage reports to Codecov
+    #   run: |
+    #     # Replace `linux` below with the appropriate OS
+    #     # Options are `alpine`, `linux`, `macos`, `windows`
+    #     curl -Os https://uploader.codecov.io/latest/linux/codecov
+    #     chmod +x codecov
+    #     ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f pylint_report.txt
