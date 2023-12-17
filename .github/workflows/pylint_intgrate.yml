@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install requirements
-      run: pip install -r requirements.txt
+      run:  pip install pylint pytest
     - name: Run tests and collect coverage
       run: pytest --cov .
     - name: Upload coverage reports to Codecov
@@ -18,4 +18,4 @@ jobs:
         # Options are `alpine`, `linux`, `macos`, `windows`
         curl -Os https://uploader.codecov.io/latest/linux/codecov
         chmod +x codecov
-        ./codecov -t ${CODECOV_TOKEN}
+        ./codecov -t ${{ secrets.CODECOV_TOKEN }}
