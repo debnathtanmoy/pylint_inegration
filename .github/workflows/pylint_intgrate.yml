@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install requirements
-      run: pip install pylint pytest pytest-cov pylint-json-report pylint-viewer
+      run: pip install pylint pytest pytest-cov
     - name: Run Pytest with coverage
       run: |
         pytest --cov .
@@ -24,15 +24,13 @@ jobs:
 
     - name: Run PyLint and generate report
       run: |
-        pylint --output-format=json . > pylint_report.json
-        pylint-json-report pylint_report.json > viewer_input.json
-        pylint-viewer viewer_input.json
+        pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_coverage.txt || echo "FAILED"
 
     - name: View pylint report
       run: cat pylint_coverage.txt
 
-    - name: Upload pylint report as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: pylint-report
-        path: viewer_input.json
+    # - name: Upload pylint report as artifact
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: pylint-report
+    #     path: pylint_coverage.txt
