@@ -24,10 +24,13 @@ jobs:
 
     - name: Run PyLint and generate report
       run: |
-        pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_report.txt || echo "FAILED"
+        pylint --output-format=parseable ./**/*.py  > pylint_coverage.txt
 
-    - name: Upload  pylint coverage reports to Codecov
-      run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f pylint_report.txt
+    - name: View pylint report
+      run: cat pylint_coverage.txt
+
+    - name: Upload pylint report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: pylint-report
+        path: pylint_coverage.txt
