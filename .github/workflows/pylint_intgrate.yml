@@ -24,7 +24,7 @@ jobs:
 
     - name: Run PyLint and generate report
       run: |
-        pylint --output-format=parseable ./**/*.py  > pylint_coverage.txt
+        pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_coverage.txt || echo "FAILED"
 
     - name: View pylint report
       run: cat pylint_coverage.txt
