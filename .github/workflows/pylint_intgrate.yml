@@ -32,11 +32,12 @@ jobs:
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         args: >
             -Dsonar.organization=debnathtanmoy
-            -Dsonar.projectKey=pylint_inegration
+            -Dsonar.projectKey=debnathtanmoy_pylint_inegration
             -Dsonar.python.coverage.reportPaths=coverage.xml
 
     # - name: Upload pylint report as artifact
