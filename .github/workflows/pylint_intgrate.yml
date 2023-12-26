@@ -1,13 +1,19 @@
 name: API workflow
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     name: Test python API
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v1
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
