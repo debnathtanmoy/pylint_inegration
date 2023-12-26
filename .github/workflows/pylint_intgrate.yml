@@ -39,6 +39,7 @@ jobs:
             -Dsonar.organization=debnathtanmoy
             -Dsonar.projectKey=pylint_inegration
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.branch.name=main
 
     # - name: Upload pylint report as artifact
     #   uses: actions/upload-artifact@v3
