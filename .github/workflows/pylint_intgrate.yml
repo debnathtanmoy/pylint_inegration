@@ -1,3 +1,4 @@
+
 name: "sonar_cloud_scan_github_actions"
 on:
   workflow_dispatch:
@@ -19,3 +20,35 @@ jobs:
               -Dsonar.organization=debnathtanmoy
               -Dsonar.projectKey=pylint_inegration
               -Dsonar.python.coverage.reportPaths=coverage.xml
+
+              - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                python-version: 3.x
+      
+      - name: Install dependencies
+        run: pip install pylint pytest pytest-cov
+
+      - name: Run PyLint and generate report
+        run: |
+          pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_report.txt || echo "FAILED"
+
+      - name: Check PyLint score
+        run: |
+          pylint_score=$(cat pylint_report.txt)
+          if [[ "$pylint_score" != "FAILED" ]]; then
+            echo "PyLint score is above 9: $pylint_score"
+          else
+            echo "PyLint score is below 9: $pylint_score"
+            exit 0
+          fi
+
+      - name: Run Pytest with coverage
+        run: |
+          pytest --cov .
+
+      - name: Upload coverage reports to Codecov
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f pylint_report.txt
