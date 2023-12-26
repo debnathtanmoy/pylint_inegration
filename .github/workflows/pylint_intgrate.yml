@@ -37,7 +37,7 @@ jobs:
       with:
         args: >
             -Dsonar.organization=debnathtanmoy
-            -Dsonar.projectKey=debnathtanmoy_pylint_inegration
+            -Dsonar.projectKey=pylint_inegration
             -Dsonar.python.coverage.reportPaths=coverage.xml
 
     # - name: Upload pylint report as artifact
