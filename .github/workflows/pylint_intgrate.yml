@@ -1,7 +1,11 @@
 
 name: "sonar_cloud_scan_github_actions"
+
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   DemoSonarCloudSCan:
@@ -20,14 +24,12 @@ jobs:
               -Dsonar.organization=debnathtanmoy
               -Dsonar.projectKey=pylint_inegration
               -Dsonar.python.coverage.reportPaths=coverage.xml
+              -Dsonar.branch.name=main
 
-              - name: Set up Python
-              uses: actions/setup-python@v2
-              with:
-                python-version: 3.x
-      
-      - name: Install dependencies
-        run: pip install pylint pytest pytest-cov
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
       - name: Run PyLint and generate report
         run: |
