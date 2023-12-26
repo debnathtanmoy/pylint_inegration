@@ -22,7 +22,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         args: >
-            -Dsonar.organization=Tanmoy Debnath
+            -Dsonar.organization=debnathtanmoy
             -Dsonar.projectKey=pylint_inegration
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.branch.name=main
