@@ -31,9 +31,12 @@ jobs:
         with:
           python-version: 3.x
 
+      - name: Install dependencies
+        run: pip install pylint pytest pytest-cov
+
       - name: Run PyLint and generate report
         run: |
-          pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_report.txt || echo "FAILED"
+          pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_coverage.txt || echo "FAILED"
 
       - name: Check PyLint score
         run: |
@@ -44,6 +47,9 @@ jobs:
             echo "PyLint score is below 9: $pylint_score"
             exit 0
           fi
+
+      - name: View pylint report
+        run: cat pylint_coverage.txt
 
       - name: Run Pytest with coverage
         run: |
