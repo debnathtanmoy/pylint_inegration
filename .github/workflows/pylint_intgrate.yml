@@ -37,7 +37,7 @@ jobs:
       - name: Run PyLint and generate report
         run: |
           pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_coverage.txt || echo "FAILED"
-          
+
       - name: View pylint report
         run: cat pylint_coverage.txt
 
@@ -45,8 +45,10 @@ jobs:
         run: |
           pytest --cov .
 
-      - name: Upload coverage reports to Codecov
+      - name: Upload pytest coverage reports to Codecov
         run: |
+          # Replace `linux` below with the appropriate OS
+          # Options are `alpine`, `linux`, `macos`, `windows`
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f pylint_report.txt
+          ./codecov -t ${{ secrets.CODECOV_TOKEN }}
