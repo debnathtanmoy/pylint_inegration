@@ -37,17 +37,7 @@ jobs:
       - name: Run PyLint and generate report
         run: |
           pylint --output-format=text --rcfile=.pylintrc --fail-under=9 ./**/*.py > pylint_coverage.txt || echo "FAILED"
-
-      - name: Check PyLint score
-        run: |
-          pylint_score=$(cat pylint_report.txt)
-          if [[ "$pylint_score" != "FAILED" ]]; then
-            echo "PyLint score is above 9: $pylint_score"
-          else
-            echo "PyLint score is below 9: $pylint_score"
-            exit 0
-          fi
-
+          
       - name: View pylint report
         run: cat pylint_coverage.txt
 
